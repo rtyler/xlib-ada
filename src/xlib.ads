@@ -33,6 +33,9 @@ package Xlib is
     subtype Colormap_Type is Xid_Type;
     subtype Cursor_Type is Xid_Type;
     subtype VisualId_Type is Xid_Type;
+    subtype Key_Symbol_Type is Xid_Type;
+
+    subtype Key_Code_Type is Unsigned_Char;
 
     CurrentTime : constant Time_Type := 0;
 
@@ -41,6 +44,16 @@ package Xlib is
 
     function Default_Root_Window (D : Display_Type) return Window_Type;
     pragma Import (C, Default_Root_Window, "XDefaultRootWindow");
+
+
+    function Grab_Key (Display : Display_Type;
+                       Key_Code : Key_Code_Type;
+                       Modifiers : Unsigned;
+                       Window : Window_Type;
+                       Owner_Events : Int;
+                       Pointer_Mode : Int;
+                       Keyboard_Mode : Int) return Return_Code_Type;
+    pragma Import (C, Grab_Key, "XGrabKey");
 
     function Grab_Button (Display : Display_Type;
                           Button  : Unsigned;
@@ -76,6 +89,11 @@ package Xlib is
                                  Width   : Unsigned;
                                  Height  : Unsigned) return Return_Code_Type;
     pragma Import (C, Move_Resize_Window, "XMoveResizeWindow");
+
+
+    function Raise_Window (Display : Display_Type;
+                           Window : Window_Type) return Return_Code_Type;
+    pragma Import (C, Raise_Window, "XRaiseWindow");
 
     type XPointer is new Interfaces.C.Strings.Chars_Ptr;
     type u_XExtData is record
